@@ -10,3 +10,20 @@ takes token from @PathVariable then pass to VerifyAccount() which checks if the 
 {We use @EnableAsync on SpringBootApplication to reduce time  required sending email as send email takes a lot of time and add @Async on the method that takes time
 i.e sendMail()
 other ways to implement this using Message Queue like RabbitMQ or ActiveMQ }
+
+Client sends login request to server if the credentials are authorized a JWT is created and sent back to Client.
+Client then uses that token to authenticate all other request
+
+3.Login(/login)
+We take username and password using loginRequest(dto)
+In security config we specify  which interface of Authentication manager to implement and declare it as @Bean
+
+we implement userDetailsSerivce and orveride the loadUserByUsername() and return org.springframework.security
+                .core.userdetails.User User if available in our User(Table)
+make securityCOntext and pass autheticatio object to it
+call jwtProvider and get the JWT token last return jwt token and username.
+
+4.subredditApi(/api/subreddit)
+PostMethod SubredditDto to map to subreddit(table) 
+GetMethod to print all Subreddits
+
