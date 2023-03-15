@@ -1,50 +1,37 @@
 package com.project.reddit.controllers;
 
-
-import com.project.reddit.dto.RegisterRequest;
-import com.project.reddit.models.User;
+import com.project.reddit.Dto.AuthenticationResponse;
+import com.project.reddit.Dto.LoginRequest;
+import com.project.reddit.Dto.RegisterRequest;
 import com.project.reddit.services.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/api/auth")
+@AllArgsConstructor
 public class AuthController {
 
-
-    @Autowired
-    private AuthService authService;
-
-
-    @PreAuthorize("hasAuthority('NORMAL')")
-    @GetMapping("/normal")
-    public ResponseEntity<String> normalUser(){
-        return ResponseEntity.ok("Yes, I am a Normal User");
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/admin")
-    public ResponseEntity<String> adminUser(){
-        return ResponseEntity.ok("Yes, I am a admin User");
-    }
-
-    @GetMapping("/public")
-    public ResponseEntity<String> User(){
-        return ResponseEntity.ok("Yes, I am a public User");
-    }
+    private final AuthService authService;
 
     @PostMapping("/signup")
-    public void signup(@RequestBody RegisterRequest registerRequest)
-    {
-
+    public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest){
+        authService.signup(registerRequest);
+        return ResponseEntity.ok("User Registration successful");
     }
 
-    @PostMapping("/add")
-    public String addUser(@RequestBody User user)
-    {
-        return authService.addUser(user);
+    @GetMapping("/accountVerification/{token}")
+    public ResponseEntity<String> verifyAccount(@PathVariable String token){
+        authService.verifyAccount(token);
+        return ResponseEntity.ok("Account Activated Successfully");
     }
 
+    @PostMapping("/login")
+    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest){
+        return authService.login(loginRequest);
+    }
 }

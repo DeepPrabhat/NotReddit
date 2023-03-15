@@ -1,38 +1,24 @@
 package com.project.reddit.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import java.time.Instant;
+import java.util.List;
 
-@Setter
-@Getter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
-    @NotBlank(message = "Username is required")
     private String username;
-
-    @NotBlank(message = "Password is required")
     private String password;
-
-    @Email
-    @NotEmpty(message = "Email is Required")
     private String email;
-
-    private String roles;
+    private Instant created;
+    private boolean enabled;
 }

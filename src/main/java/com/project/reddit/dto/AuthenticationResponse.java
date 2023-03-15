@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-public class RegisterRequest {
-    private String email;
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuthenticationResponse {
+    private String authenticationToken;
     private String username;
-    private String password;
 
 }

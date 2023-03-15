@@ -1,30 +1,25 @@
 package com.project.reddit.models;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
-@Setter
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Post {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
-    @NotBlank(message = "post name cannot be null")
     private String postName;
 
-    @Nullable
     private String url;
-
     @Lob
-    @Nullable
     private String description;
 
     private Integer voteCount;
@@ -38,9 +33,4 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Subreddit subreddit;
-
-
-
-
-
 }
